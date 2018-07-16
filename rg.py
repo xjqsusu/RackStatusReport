@@ -9,81 +9,98 @@ def initialize1():
     root.title("Status Rack Report")
     root.iconbitmap('if_letter_S_red_1553075.ico')
 
+    L02 = Label(root, text="Manager")
+    L02.grid(row=0, column=0, sticky= W)
+    variable1 = StringVar(root)
+    variable1.set("Doug Fong") # default value
+    w02 = OptionMenu(root, variable1,"Doug Fong", "Willis Wong",\
+                     "Stuart Robson", "Ben Mansell",\
+                     "Paul Laca", "David Nguyen",\
+                     "George Binns", "Nasser Iranikhah")
+    w02.grid(row=0, column=1, sticky= W)
+
+    L03 = Label(root, text="Customer Name")
+    L03.grid(row=1, column =0, sticky= W)
+    E0 = Entry(root)
+    E0.grid(row=1, column=1, sticky= W)
+
     L0 = Label(root, text="Rack Name")
-    L0.grid(row=0, column =0, sticky= W)
-    T0 = Text(root, height=1, width=20)
-    T0.grid(row=0, column=1, sticky= W)
+    L0.grid(row=2, column =0, sticky= W)
+    T0 = Entry(root)
+    T0.grid(row=2, column=1, sticky= W)
 
     L01 = Label(root, text="ATP Container#")
-    L01.grid(row=1, column =0, sticky= W)
-    T01 = Text(root, height=1, width=20)
-    T01.grid(row=1, column=1, sticky= W)
+    L01.grid(row=3, column =0, sticky= W)
+    T01 = Entry(root)
+    T01.grid(row=3, column=1, sticky= W)
 
     L1 = Label(root, text="Key Activities Completed on Day")
-    L1.grid(row=2, column =0, sticky= W)
+    L1.grid(row=4, column =0, sticky= W)
     T1 = Text(root, height=5, width=50)
     T1.delete("1.0",END)
 ##    T1.insert("1.0","a.\nb.\nc.")
-    T1.grid(row=3, column=1, sticky= W)
+    T1.grid(row=5, column=1, sticky= W)
     S1 = Scrollbar(root)
-    S1.grid(row=3,column=2,sticky=NS)
+    S1.grid(row=5,column=2,sticky=NS)
     S1.config(command=T1.yview)
     T1.config(yscrollcommand=S1.set)
 
     L2 = Label(root, text="ATP_Status (current stage of rack ATP)")
-    L2.grid(row=4, column=0, sticky= W)
+    L2.grid(row=6, column=0, sticky= W)
     variable = StringVar(root)
     variable.set("Please pick up a status") # default value
     w = OptionMenu(root, variable, "Integration", "Dry Run", "ATP")
-    w.grid(row=4, column=1, sticky= W)
+    w.grid(row=6, column=1, sticky= W)
 
     L3 = Label(root, text="Justification for software updates")
-    L3.grid(row=5, column=0, sticky= W)
+    L3.grid(row=7, column=0, sticky= W)
     T3 = Text(root, height=5, width=50)
     T3.delete("1.0",END)
 ##    T3.insert("1.0","a.\nb.\nc.")
-    T3.grid(row=6, column=1, sticky= E)
+    T3.grid(row=7, column=1, sticky= E)
     S3 = Scrollbar(root)
-    S3.grid(row=6,column=2,sticky=NS)
+    S3.grid(row=7,column=2,sticky=NS)
     S3.config(command=T3.yview)
     T3.config(yscrollcommand=S3.set)
 
     L4 = Label(root, text="Critical issues Raised and potential impact")
-    L4.grid(row=7, column=0, sticky= W)
+    L4.grid(row=9, column=0, sticky= W)
     T4 = Text(root, height=5, width=50)
     T4.delete("1.0",END)
 ##    T4.insert("1.0","a.\nb.\nc.")
-    T4.grid(row=8, column=1, sticky= W)
+    T4.grid(row=10, column=1, sticky= W)
     S4 = Scrollbar(root)
-    S4.grid(row=8,column=2,sticky=NS)
+    S4.grid(row=10,column=2,sticky=NS)
     S4.config(command=T4.yview)
     T4.config(yscrollcommand=S4.set)
 
     L5 = Label(root, text="Support Request")
-    L5.grid(row=9, column=0, sticky= W)
+    L5.grid(row=11, column=0, sticky= W)
     T5 = Text(root, height=5, width=50)
     T5.delete("1.0",END)
 ##    T5.insert("1.0","a.\nb.\nc.")
-    T5.grid(row=10, column=1, sticky= W)
+    T5.grid(row=12, column=1, sticky= W)
     S5 = Scrollbar(root)
-    S5.grid(row=10,column=2,sticky=NS)
+    S5.grid(row=12,column=2,sticky=NS)
     S5.config(command=T5.yview)
     T5.config(yscrollcommand=S5.set)
 
-    B1 = Button(root, text="Send!", command=lambda: sendText(T0,T01,variable,T1,T3,T4,T5),\
+    B1 = Button(root, text="Send!", command=lambda: sendText(variable1,E0,T0,T01,\
+                                                             variable,T1,T3,T4,T5),\
                 height = 5, width = 20)
-    B1.grid(row=11,column=0,sticky=E)
-    B2 = Button(root, text="Clear All", command=lambda: rmText(T0,T01,T1,T3,T4,T5),\
+    B1.grid(row=13,column=0,sticky=E)
+    B2 = Button(root, text="Clear All", command=lambda: rmText(E0,T0,T01,T1,T3,T4,T5),\
                 height = 5, width = 20)
 ##    B2 = Button(root, text="Clear All", command=lambda: orgText(T1))
-    B2.grid(row=11,column=1)
+    B2.grid(row=13,column=1)
     
 
     root.mainloop()
 
-def rmText(a,b,c,d,e,f):
-    a.delete(1.0,END)
-    b.delete(1.0,END)
+def rmText(a1,a,b,c,d,e,f):
+    a1.delete(0,END)
+    a.delete(0,END)
+    b.delete(0,END)
 ##    b.insert("1.0","a.\nb.\nc.")
     c.delete(1.0,END)
 ##    c.insert("1.0","a.\nb.\nc.")
@@ -93,18 +110,24 @@ def rmText(a,b,c,d,e,f):
 ##    e.insert("1.0","a.\nb.\nc.")
     f.delete(1.0,END)
 
-def sendText(rack,atp,drop,key,just,criti,supp):
-    rack_name = rack.get("1.0",END)
-    atp_no = atp.get("1.0",END)
+def sendText(mana,cust,rack,atp,drop,key,just,criti,supp):
+    cust_name = cust.get()
+    rack_name = rack.get()
+    atp_no = atp.get()
 ##    key_act = key.get("1.0",END)
 ##    justification = just.get("1.0",END)
 ##    critical = criti.get("1.0",END)
 ##    support = supp.get("1.0",END)
+    print toEmail(mana.get())
 
     now=datetime.date.today().strftime("%m/%d/%y")
-    
+
+    cust_name = cust_name.rstrip()
+    cust_name = cust_name.strip()
     rack_name = rack_name.rstrip()
+    rack_name = rack_name.strip()
     atp_no = atp_no.rstrip()
+    atp_no = atp_no.strip()
 ##    rack_name = rack_name.replace(" ","")
 ##    atp_no = atp_no.replace(" ","")
     
@@ -112,7 +135,7 @@ def sendText(rack,atp,drop,key,just,criti,supp):
     olMailItem = 0x0   
     obj = win32com.client.Dispatch("Outlook.Application")
     newMail = obj.CreateItem(olMailItem)
-    newMail.Subject = "Status Rack Report -- "+ rack_name +" -- "+now
+    newMail.Subject = "Rack Report__"+ cust_name + "@" +rack_name +"__"+now
     
 ##    newMail.Body = "The following represents the status report for "+rack_name+\
 ##                   ", ATP#"+atp_no+"\n\n"+\
@@ -129,9 +152,9 @@ def sendText(rack,atp,drop,key,just,criti,supp):
                    "(3) Justification for Software updates<br>"+orgText(just)+"<br>"+\
                    "(4) Critical issues Raised and potential Impact<br>"+orgText(criti)+"<br>"\
                    "(5) Support Requested<br>"+orgText(supp)
-    newMail.To = "jieqiang.xiao@panasonic.aero"
+    newMail.To = toEmail(mana.get())
     newMail.Send()
-    tkMessageBox.showinfo("sent","Status Report successfully submitted.")
+    tkMessageBox.showinfo("sent","Status Report successfully submitted to "+mana.get()+"!")
 
 def orgText(T):
     T=T.get("1.0",END)
@@ -147,6 +170,25 @@ def orgText(T):
 ##    print(result)
     return result
     
+def toEmail(m_name):
+    if m_name == "Doug Fong":
+        result = "doug.fong@panasonic.aero"
+    elif m_name == "Willis Wong":
+        result = "willis.wong@panasonic.aero"
+    elif m_name == "Stuart Robson":
+        result = "stuart.robson@panasonic.aero"
+    elif m_name == "Ben Mansell":
+        result = "ben.mansell@panasonic.aero"
+    elif m_name == "Paul Laca":
+        result = "paul.laca@panasonic.aero"
+    elif m_name == "David Nguyen":
+        result = "david.nguyen@panasonic.aero"
+    elif m_name == "George Binns":
+        result = "george.binns@panasonic.aero"
+    elif m_name == "Nasser Iranikhah":
+        result = "nasser.iranikhah@panasonic.aero"
+    return result
+
 try:
     initialize1()
 except Exception as e:
