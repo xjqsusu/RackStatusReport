@@ -36,7 +36,7 @@ def initialize1():
 
     L1 = Label(root, text="Key Activities Completed on Day")
     L1.grid(row=4, column =0, sticky= W)
-    T1 = Text(root, height=5, width=50)
+    T1 = Text(root, height=5, width=75)
     T1.delete("1.0",END)
 ##    T1.insert("1.0","a.\nb.\nc.")
     T1.grid(row=5, column=1, sticky= W)
@@ -54,18 +54,18 @@ def initialize1():
 
     L3 = Label(root, text="Justification for software updates")
     L3.grid(row=7, column=0, sticky= W)
-    T3 = Text(root, height=5, width=50)
+    T3 = Text(root, height=5, width=75)
     T3.delete("1.0",END)
 ##    T3.insert("1.0","a.\nb.\nc.")
-    T3.grid(row=7, column=1, sticky= E)
+    T3.grid(row=8, column=1, sticky= E)
     S3 = Scrollbar(root)
-    S3.grid(row=7,column=2,sticky=NS)
+    S3.grid(row=8,column=2,sticky=NS)
     S3.config(command=T3.yview)
     T3.config(yscrollcommand=S3.set)
 
     L4 = Label(root, text="Critical issues Raised and potential impact")
     L4.grid(row=9, column=0, sticky= W)
-    T4 = Text(root, height=5, width=50)
+    T4 = Text(root, height=5, width=75)
     T4.delete("1.0",END)
 ##    T4.insert("1.0","a.\nb.\nc.")
     T4.grid(row=10, column=1, sticky= W)
@@ -76,7 +76,7 @@ def initialize1():
 
     L5 = Label(root, text="Support Request")
     L5.grid(row=11, column=0, sticky= W)
-    T5 = Text(root, height=5, width=50)
+    T5 = Text(root, height=5, width=75)
     T5.delete("1.0",END)
 ##    T5.insert("1.0","a.\nb.\nc.")
     T5.grid(row=12, column=1, sticky= W)
@@ -118,7 +118,6 @@ def sendText(mana,cust,rack,atp,drop,key,just,criti,supp):
 ##    justification = just.get("1.0",END)
 ##    critical = criti.get("1.0",END)
 ##    support = supp.get("1.0",END)
-    print toEmail(mana.get())
 
     now=datetime.date.today().strftime("%m/%d/%y")
 
@@ -135,7 +134,7 @@ def sendText(mana,cust,rack,atp,drop,key,just,criti,supp):
     olMailItem = 0x0   
     obj = win32com.client.Dispatch("Outlook.Application")
     newMail = obj.CreateItem(olMailItem)
-    newMail.Subject = "Rack Report__"+ cust_name + "@" +rack_name +"__"+now
+    newMail.Subject = "Rack Report -- "+ cust_name + "/" +rack_name +" -- "+now
     
 ##    newMail.Body = "The following represents the status report for "+rack_name+\
 ##                   ", ATP#"+atp_no+"\n\n"+\
@@ -153,6 +152,7 @@ def sendText(mana,cust,rack,atp,drop,key,just,criti,supp):
                    "(4) Critical issues Raised and potential Impact<br>"+orgText(criti)+"<br>"\
                    "(5) Support Requested<br>"+orgText(supp)
     newMail.To = toEmail(mana.get())
+    newMail.Cc = toEmail(mana.get())
     newMail.Send()
     tkMessageBox.showinfo("sent","Status Report successfully submitted to "+mana.get()+"!")
 
