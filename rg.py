@@ -19,98 +19,110 @@ def initialize1():
                      "George Binns", "Nasser Iranikhah")
     w02.grid(row=0, column=1, sticky= W)
 
-    L03 = Label(root, text="Customer Name")
-    L03.grid(row=1, column =0, sticky= W)
-    E0 = Entry(root)
-    E0.grid(row=1, column=1, sticky= W)
+    LCC = Label(root, text="CC")
+    LCC.grid(row=1, column =0, sticky= W)
+    ECC = Entry(root)
+    ECC.grid(row=1, column=1, sticky= W)
 
-    L0 = Label(root, text="Rack Name")
-    L0.grid(row=2, column =0, sticky= W)
+    L03 = Label(root, text="Customer Name")
+    L03.grid(row=2, column =0, sticky= W)
+    E0 = Entry(root)
+    E0.grid(row=2, column=1, sticky= W)
+
+    L0 = Label(root, text="Rack Name (*One rack per report)")
+    L0.grid(row=3, column =0, sticky= W)
     T0 = Entry(root)
-    T0.grid(row=2, column=1, sticky= W)
+    T0.grid(row=3, column=1, sticky= W)
 
     L01 = Label(root, text="ATP Container#")
-    L01.grid(row=3, column =0, sticky= W)
+    L01.grid(row=4, column =0, sticky= W)
     T01 = Entry(root)
-    T01.grid(row=3, column=1, sticky= W)
+    T01.grid(row=4, column=1, sticky= W)
 
     L1 = Label(root, text="Key Activities Completed on Day")
-    L1.grid(row=4, column =0, sticky= W)
+    L1.grid(row=5, column =0, sticky= W)
     T1 = Text(root, height=5, width=75)
     T1.delete("1.0",END)
 ##    T1.insert("1.0","a.\nb.\nc.")
-    T1.grid(row=5, column=1, sticky= W)
+    T1.grid(row=6, column=1, sticky= W)
     S1 = Scrollbar(root)
-    S1.grid(row=5,column=2,sticky=NS)
+    S1.grid(row=6,column=2,sticky=NS)
     S1.config(command=T1.yview)
     T1.config(yscrollcommand=S1.set)
 
     L2 = Label(root, text="ATP_Status (current stage of rack ATP)")
-    L2.grid(row=6, column=0, sticky= W)
+    L2.grid(row=7, column=0, sticky= W)
     variable = StringVar(root)
     variable.set("Please pick up a status") # default value
-    w = OptionMenu(root, variable, "Integration", "Dry Run", "ATP")
-    w.grid(row=6, column=1, sticky= W)
+    w = OptionMenu(root, variable, \
+                   "Pre-Integration", "Integration", "Dry Run", "ATP")
+    w.grid(row=7, column=1, sticky= W)
 
     L3 = Label(root, text="Justification for software updates")
-    L3.grid(row=7, column=0, sticky= W)
+    L3.grid(row=8, column=0, sticky= W)
     T3 = Text(root, height=5, width=75)
     T3.delete("1.0",END)
 ##    T3.insert("1.0","a.\nb.\nc.")
-    T3.grid(row=8, column=1, sticky= E)
+    T3.grid(row=9, column=1, sticky= E)
     S3 = Scrollbar(root)
-    S3.grid(row=8,column=2,sticky=NS)
+    S3.grid(row=9,column=2,sticky=NS)
     S3.config(command=T3.yview)
     T3.config(yscrollcommand=S3.set)
 
     L4 = Label(root, text="Critical issues Raised and potential impact")
-    L4.grid(row=9, column=0, sticky= W)
+    L4.grid(row=10, column=0, sticky= W)
     T4 = Text(root, height=5, width=75)
     T4.delete("1.0",END)
 ##    T4.insert("1.0","a.\nb.\nc.")
-    T4.grid(row=10, column=1, sticky= W)
+    T4.grid(row=11, column=1, sticky= W)
     S4 = Scrollbar(root)
-    S4.grid(row=10,column=2,sticky=NS)
+    S4.grid(row=11,column=2,sticky=NS)
     S4.config(command=T4.yview)
     T4.config(yscrollcommand=S4.set)
 
     L5 = Label(root, text="Support Request")
-    L5.grid(row=11, column=0, sticky= W)
+    L5.grid(row=12, column=0, sticky= W)
     T5 = Text(root, height=5, width=75)
     T5.delete("1.0",END)
 ##    T5.insert("1.0","a.\nb.\nc.")
-    T5.grid(row=12, column=1, sticky= W)
+    T5.grid(row=13, column=1, sticky= W)
     S5 = Scrollbar(root)
-    S5.grid(row=12,column=2,sticky=NS)
+    S5.grid(row=13,column=2,sticky=NS)
     S5.config(command=T5.yview)
     T5.config(yscrollcommand=S5.set)
 
-    B1 = Button(root, text="Send!", command=lambda: sendText(variable1,E0,T0,T01,\
+    B1 = Button(root, text="Send!", command=lambda: sendText(variable1,ECC,E0,T0,T01,\
                                                              variable,T1,T3,T4,T5),\
                 height = 5, width = 20)
-    B1.grid(row=13,column=0,sticky=E)
-    B2 = Button(root, text="Clear All", command=lambda: rmText(E0,T0,T01,T1,T3,T4,T5),\
+    B1.grid(row=14,column=0,sticky=E)
+    B2 = Button(root, text="Clear All", command=lambda: rmText(ECC,E0,T0,T01,T1,T3,T4,T5),\
                 height = 5, width = 20)
 ##    B2 = Button(root, text="Clear All", command=lambda: orgText(T1))
-    B2.grid(row=13,column=1)
+    B2.grid(row=14,column=1)
     
 
     root.mainloop()
 
-def rmText(a1,a,b,c,d,e,f):
-    a1.delete(0,END)
-    a.delete(0,END)
-    b.delete(0,END)
-##    b.insert("1.0","a.\nb.\nc.")
-    c.delete(1.0,END)
-##    c.insert("1.0","a.\nb.\nc.")
-    d.delete(1.0,END)
-##    d.insert("1.0","a.\nb.\nc.")
-    e.delete(1.0,END)
-##    e.insert("1.0","a.\nb.\nc.")
-    f.delete(1.0,END)
+def rmText(ac,a1,a,b,c,d,e,f):
+    result = tkMessageBox.askquestion("Warning",\
+                                      "Are you sure you want to clear this form?",\
+                                      icon='warning')
+    if result == 'yes':
+        ac.delete(0,END)
+        a1.delete(0,END)
+        a.delete(0,END)
+        b.delete(0,END)
+    ##    b.insert("1.0","a.\nb.\nc.")
+        c.delete(1.0,END)
+    ##    c.insert("1.0","a.\nb.\nc.")
+        d.delete(1.0,END)
+    ##    d.insert("1.0","a.\nb.\nc.")
+        e.delete(1.0,END)
+    ##    e.insert("1.0","a.\nb.\nc.")
+        f.delete(1.0,END)
 
-def sendText(mana,cust,rack,atp,drop,key,just,criti,supp):
+def sendText(mana,cc,cust,rack,atp,drop,key,just,criti,supp):
+    cc_name = cc.get()
     cust_name = cust.get()
     rack_name = rack.get()
     atp_no = atp.get()
@@ -121,6 +133,8 @@ def sendText(mana,cust,rack,atp,drop,key,just,criti,supp):
 
     now=datetime.date.today().strftime("%m/%d/%y")
 
+    cc_name = cc_name.rstrip()
+    cc_name = cc_name.strip()
     cust_name = cust_name.rstrip()
     cust_name = cust_name.strip()
     rack_name = rack_name.rstrip()
@@ -147,12 +161,12 @@ def sendText(mana,cust,rack,atp,drop,key,just,criti,supp):
     newMail.HTMLBody = "The following represents the status report for "+rack_name+\
                    ", ATP#"+atp_no+"<br><br>"+\
                    "(1) Key Activities Completed on Day<br>"+orgText(key)+"<br>"+\
-                   "(2) ATP_Status (current stage of rack ATP)<br>"+drop.get()+"<br><br>"+\
+                   "(2) ATP_Status (current stage of rack ATP)<br>&nbsp;&nbsp;&nbsp;&nbsp;"+drop.get()+"<br><br>"+\
                    "(3) Justification for Software updates<br>"+orgText(just)+"<br>"+\
                    "(4) Critical issues Raised and potential Impact<br>"+orgText(criti)+"<br>"\
                    "(5) Support Requested<br>"+orgText(supp)
     newMail.To = toEmail(mana.get())
-    newMail.Cc = toEmail(mana.get())
+    newMail.Cc = cc_name
     newMail.Send()
     tkMessageBox.showinfo("sent","Status Report successfully submitted to "+mana.get()+"!")
 
@@ -163,7 +177,7 @@ def orgText(T):
     index = 1
     for a in T_split:
         if a:
-            result = result + str(index) + ". " + a + "<br>"
+            result = result + "&nbsp;&nbsp;&nbsp;&nbsp;" + str(index) + ". " + a + "<br>"
             index = index + 1
 ##    print(len(T_split)) 
 ##    print(T_split)
