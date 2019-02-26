@@ -12,7 +12,7 @@ import os.path
 def initialize1():
     root = Tk()
     root.title("Status Rack Report")
-##    root.iconbitmap('if_letter_S_red_1553075.ico')
+    root.iconbitmap('if_letter_S_red_1553075.ico')
 
     L02 = Label(root, text="Manager")
     L02.grid(row=0, column=0, sticky= W)
