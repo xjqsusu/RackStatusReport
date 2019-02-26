@@ -1,4 +1,4 @@
 # RackStatusReport
-added auto word wrapping
-added auto saving
-fixed window
+<p>added auto word wrapping</p>
+<p>added auto saving</p>
+<p>fixed window</p>
