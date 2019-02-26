@@ -125,16 +125,16 @@ def initialize1():
     root.mainloop()
 
 def save(t1, t2, t3, t4, root):
-    keyAct = t1.get("1.0", END)
+    keyAct = t1.get("1.0", END+"-1c")
     with open("keyactivity.txt","w") as k:
         k.write(keyAct)
-    just = t2.get("1.0", END)
+    just = t2.get("1.0", END+"-1c")
     with open("justification.txt","w") as j:
         j.write(just)
-    critIssue = t3.get("1.0", END)
+    critIssue = t3.get("1.0", END+"-1c")
     with open("criticalissue.txt","w") as c:
         c.write(critIssue)
-    suppRequ = t4.get("1.0", END)
+    suppRequ = t4.get("1.0", END+"-1c")
     with open("support.txt","w") as s:
         s.write(suppRequ)
     root.destroy()
