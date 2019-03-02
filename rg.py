@@ -1,8 +1,13 @@
+## version 4.0
+##
+##
+
 from Tkinter import *
 from win32com.client import Dispatch, constants
 import win32gui, win32con, win32com.client
 import datetime
 import tkMessageBox
+import os.path
 
 def initialize1():
     root = Tk()
@@ -41,7 +46,7 @@ def initialize1():
 
     L1 = Label(root, text="Key Activities Completed on Day")
     L1.grid(row=5, column =0, sticky= W)
-    T1 = Text(root, height=5, width=75)
+    T1 = Text(root, height=5, width=75, wrap=WORD)
     T1.delete("1.0",END)
 ##    T1.insert("1.0","a.\nb.\nc.")
     T1.grid(row=6, column=1, sticky= W)
@@ -60,7 +65,7 @@ def initialize1():
 
     L3 = Label(root, text="Justification for software updates")
     L3.grid(row=8, column=0, sticky= W)
-    T3 = Text(root, height=5, width=75)
+    T3 = Text(root, height=5, width=75, wrap=WORD)
     T3.delete("1.0",END)
 ##    T3.insert("1.0","a.\nb.\nc.")
     T3.grid(row=9, column=1, sticky= E)
@@ -71,7 +76,7 @@ def initialize1():
 
     L4 = Label(root, text="Critical issues Raised and potential impact")
     L4.grid(row=10, column=0, sticky= W)
-    T4 = Text(root, height=5, width=75)
+    T4 = Text(root, height=5, width=75, wrap=WORD)
     T4.delete("1.0",END)
 ##    T4.insert("1.0","a.\nb.\nc.")
     T4.grid(row=11, column=1, sticky= W)
@@ -82,7 +87,7 @@ def initialize1():
 
     L5 = Label(root, text="Support Request")
     L5.grid(row=12, column=0, sticky= W)
-    T5 = Text(root, height=5, width=75)
+    T5 = Text(root, height=5, width=75, wrap=WORD)
     T5.delete("1.0",END)
 ##    T5.insert("1.0","a.\nb.\nc.")
     T5.grid(row=13, column=1, sticky= W)
@@ -100,8 +105,40 @@ def initialize1():
 ##    B2 = Button(root, text="Clear All", command=lambda: orgText(T1))
     B2.grid(row=14,column=1)
     
+    try:
+        k = open("keyactivity.txt","r")       
+        j = open("justification.txt","r")       
+        c = open("criticalissue.txt","r")  
+        s = open("support.txt","r")        
+    except IOError:
+        k = open("keyactivity.txt","w+")
+        j = open("justification.txt","w+")
+        c = open("criticalissue.txt","w+")
+        s = open("support.txt","w+")
 
+    T1.insert("1.0", k.read())
+    T3.insert("1.0", j.read())
+    T4.insert("1.0", c.read())
+    T5.insert("1.0", s.read())
+    root.resizable(0, 0)
+    root.protocol("WM_DELETE_WINDOW", lambda: save(T1, T3, T4, T5, root))
     root.mainloop()
+
+def save(t1, t2, t3, t4, root):
+    keyAct = t1.get("1.0", END+"-1c")
+    with open("keyactivity.txt","w") as k:
+        k.write(keyAct)
+    just = t2.get("1.0", END+"-1c")
+    with open("justification.txt","w") as j:
+        j.write(just)
+    critIssue = t3.get("1.0", END+"-1c")
+    with open("criticalissue.txt","w") as c:
+        c.write(critIssue)
+    suppRequ = t4.get("1.0", END+"-1c")
+    with open("support.txt","w") as s:
+        s.write(suppRequ)
+    root.destroy()
+
 
 def rmText(ac,a1,a,b,c,d,e,f):
     result = tkMessageBox.askquestion("Warning",\
@@ -207,4 +244,3 @@ try:
     initialize1()
 except Exception as e:
     tkMessageBox.showinfo("Error", str(e))
-
