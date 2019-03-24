@@ -1,13 +1,18 @@
+## version 4.1
+## auto-save customer name, rack name and ATP container upon window close
+##
+
 from Tkinter import *
 from win32com.client import Dispatch, constants
 import win32gui, win32con, win32com.client
 import datetime
 import tkMessageBox
+import os.path
 
 def initialize1():
     root = Tk()
     root.title("Status Rack Report")
-    root.iconbitmap('if_letter_S_red_1553075.ico')
+    # root.iconbitmap('if_letter_S_red_1553075.ico')
 
     L02 = Label(root, text="Manager")
     L02.grid(row=0, column=0, sticky= W)
@@ -19,98 +24,160 @@ def initialize1():
                      "George Binns", "Nasser Iranikhah")
     w02.grid(row=0, column=1, sticky= W)
 
-    L03 = Label(root, text="Customer Name")
-    L03.grid(row=1, column =0, sticky= W)
-    E0 = Entry(root)
-    E0.grid(row=1, column=1, sticky= W)
+    LCC = Label(root, text="CC")
+    LCC.grid(row=1, column =0, sticky= W)
+    ECC = Entry(root)
+    ECC.grid(row=1, column=1, sticky= W)
 
-    L0 = Label(root, text="Rack Name")
-    L0.grid(row=2, column =0, sticky= W)
+    L03 = Label(root, text="Customer Name")
+    L03.grid(row=2, column =0, sticky= W)
+    E0 = Entry(root)
+    E0.grid(row=2, column=1, sticky= W)
+
+    L0 = Label(root, text="Rack Name (*One rack per report)")
+    L0.grid(row=3, column =0, sticky= W)
     T0 = Entry(root)
-    T0.grid(row=2, column=1, sticky= W)
+    T0.grid(row=3, column=1, sticky= W)
 
     L01 = Label(root, text="ATP Container#")
-    L01.grid(row=3, column =0, sticky= W)
+    L01.grid(row=4, column =0, sticky= W)
     T01 = Entry(root)
-    T01.grid(row=3, column=1, sticky= W)
+    T01.grid(row=4, column=1, sticky= W)
 
     L1 = Label(root, text="Key Activities Completed on Day")
-    L1.grid(row=4, column =0, sticky= W)
-    T1 = Text(root, height=5, width=75)
+    L1.grid(row=5, column =0, sticky= W)
+    T1 = Text(root, height=5, width=75, wrap=WORD)
     T1.delete("1.0",END)
 ##    T1.insert("1.0","a.\nb.\nc.")
-    T1.grid(row=5, column=1, sticky= W)
+    T1.grid(row=6, column=1, sticky= W)
     S1 = Scrollbar(root)
-    S1.grid(row=5,column=2,sticky=NS)
+    S1.grid(row=6,column=2,sticky=NS)
     S1.config(command=T1.yview)
     T1.config(yscrollcommand=S1.set)
 
     L2 = Label(root, text="ATP_Status (current stage of rack ATP)")
-    L2.grid(row=6, column=0, sticky= W)
+    L2.grid(row=7, column=0, sticky= W)
     variable = StringVar(root)
     variable.set("Please pick up a status") # default value
-    w = OptionMenu(root, variable, "Integration", "Dry Run", "ATP")
-    w.grid(row=6, column=1, sticky= W)
+    w = OptionMenu(root, variable, \
+                   "Pre-Integration", "Integration", "Dry Run", "ATP")
+    w.grid(row=7, column=1, sticky= W)
 
     L3 = Label(root, text="Justification for software updates")
-    L3.grid(row=7, column=0, sticky= W)
-    T3 = Text(root, height=5, width=75)
+    L3.grid(row=8, column=0, sticky= W)
+    T3 = Text(root, height=5, width=75, wrap=WORD)
     T3.delete("1.0",END)
 ##    T3.insert("1.0","a.\nb.\nc.")
-    T3.grid(row=8, column=1, sticky= E)
+    T3.grid(row=9, column=1, sticky= E)
     S3 = Scrollbar(root)
-    S3.grid(row=8,column=2,sticky=NS)
+    S3.grid(row=9,column=2,sticky=NS)
     S3.config(command=T3.yview)
     T3.config(yscrollcommand=S3.set)
 
     L4 = Label(root, text="Critical issues Raised and potential impact")
-    L4.grid(row=9, column=0, sticky= W)
-    T4 = Text(root, height=5, width=75)
+    L4.grid(row=10, column=0, sticky= W)
+    T4 = Text(root, height=5, width=75, wrap=WORD)
     T4.delete("1.0",END)
 ##    T4.insert("1.0","a.\nb.\nc.")
-    T4.grid(row=10, column=1, sticky= W)
+    T4.grid(row=11, column=1, sticky= W)
     S4 = Scrollbar(root)
-    S4.grid(row=10,column=2,sticky=NS)
+    S4.grid(row=11,column=2,sticky=NS)
     S4.config(command=T4.yview)
     T4.config(yscrollcommand=S4.set)
 
     L5 = Label(root, text="Support Request")
-    L5.grid(row=11, column=0, sticky= W)
-    T5 = Text(root, height=5, width=75)
+    L5.grid(row=12, column=0, sticky= W)
+    T5 = Text(root, height=5, width=75, wrap=WORD)
     T5.delete("1.0",END)
 ##    T5.insert("1.0","a.\nb.\nc.")
-    T5.grid(row=12, column=1, sticky= W)
+    T5.grid(row=13, column=1, sticky= W)
     S5 = Scrollbar(root)
-    S5.grid(row=12,column=2,sticky=NS)
+    S5.grid(row=13,column=2,sticky=NS)
     S5.config(command=T5.yview)
     T5.config(yscrollcommand=S5.set)
 
-    B1 = Button(root, text="Send!", command=lambda: sendText(variable1,E0,T0,T01,\
+    B1 = Button(root, text="Send!", command=lambda: sendText(variable1,ECC,E0,T0,T01,\
                                                              variable,T1,T3,T4,T5),\
                 height = 5, width = 20)
-    B1.grid(row=13,column=0,sticky=E)
-    B2 = Button(root, text="Clear All", command=lambda: rmText(E0,T0,T01,T1,T3,T4,T5),\
+    B1.grid(row=14,column=0,sticky=E)
+    B2 = Button(root, text="Clear All", command=lambda: rmText(ECC,E0,T0,T01,T1,T3,T4,T5),\
                 height = 5, width = 20)
 ##    B2 = Button(root, text="Clear All", command=lambda: orgText(T1))
-    B2.grid(row=13,column=1)
+    B2.grid(row=14,column=1)
     
+    try:
+        cname = open("customername.txt","r")
+        rname = open("rackname.txt","r")
+        atpcontainer = open("atpcontainer.txt","r")
+        k = open("keyactivity.txt","r")       
+        j = open("justification.txt","r")       
+        c = open("criticalissue.txt","r")  
+        s = open("support.txt","r")        
+    except IOError:
+        cname = open("customername.txt","w+")
+        rname = open("rackname.txt","w+")
+        atpcontainer = open("atpcontainer.txt","w+")
+        k = open("keyactivity.txt","w+")
+        j = open("justification.txt","w+")
+        c = open("criticalissue.txt","w+")
+        s = open("support.txt","w+")
 
+    E0.insert(0, cname.read())
+    T0.insert(0, rname.read())
+    T01.insert(0, atpcontainer.read())
+    T1.insert("1.0", k.read())
+    T3.insert("1.0", j.read())
+    T4.insert("1.0", c.read())
+    T5.insert("1.0", s.read())
+    root.resizable(0, 0)
+    root.protocol("WM_DELETE_WINDOW", lambda: save(E0, T0, T01, T1, T3, T4, T5, root))
     root.mainloop()
 
-def rmText(a1,a,b,c,d,e,f):
-    a1.delete(0,END)
-    a.delete(0,END)
-    b.delete(0,END)
-##    b.insert("1.0","a.\nb.\nc.")
-    c.delete(1.0,END)
-##    c.insert("1.0","a.\nb.\nc.")
-    d.delete(1.0,END)
-##    d.insert("1.0","a.\nb.\nc.")
-    e.delete(1.0,END)
-##    e.insert("1.0","a.\nb.\nc.")
-    f.delete(1.0,END)
+def save(e0, e1, e2, t1, t2, t3, t4, root):
+    cname_readback = e0.get()
+    with open("customername.txt","w") as cn:
+        cn.write(cname_readback)
+    rname_readback = e1.get()
+    with open("rackname.txt","w") as rn:
+        rn.write(rname_readback)
+    atpcontainer_readback = e2.get()
+    with open("atpcontainer.txt","w") as ac:
+        ac.write(atpcontainer_readback)
+    keyAct = t1.get("1.0", END+"-1c")
+    with open("keyactivity.txt","w") as k:
+        k.write(keyAct)
+    just = t2.get("1.0", END+"-1c")
+    with open("justification.txt","w") as j:
+        j.write(just)
+    critIssue = t3.get("1.0", END+"-1c")
+    with open("criticalissue.txt","w") as c:
+        c.write(critIssue)
+    suppRequ = t4.get("1.0", END+"-1c")
+    with open("support.txt","w") as s:
+        s.write(suppRequ)
+    root.destroy()
 
-def sendText(mana,cust,rack,atp,drop,key,just,criti,supp):
+
+def rmText(ac,a1,a,b,c,d,e,f):
+    result = tkMessageBox.askquestion("Warning",\
+                                      "Are you sure you want to clear this form?",\
+                                      icon='warning')
+    if result == 'yes':
+        ac.delete(0,END)
+        a1.delete(0,END)
+        a.delete(0,END)
+        b.delete(0,END)
+    ##    b.insert("1.0","a.\nb.\nc.")
+        c.delete(1.0,END)
+    ##    c.insert("1.0","a.\nb.\nc.")
+        d.delete(1.0,END)
+    ##    d.insert("1.0","a.\nb.\nc.")
+        e.delete(1.0,END)
+    ##    e.insert("1.0","a.\nb.\nc.")
+        f.delete(1.0,END)
+
+def sendText(mana,cc,cust,rack,atp,drop,key,just,criti,supp):
+    cc_name = cc.get()
     cust_name = cust.get()
     rack_name = rack.get()
     atp_no = atp.get()
@@ -121,6 +188,8 @@ def sendText(mana,cust,rack,atp,drop,key,just,criti,supp):
 
     now=datetime.date.today().strftime("%m/%d/%y")
 
+    cc_name = cc_name.rstrip()
+    cc_name = cc_name.strip()
     cust_name = cust_name.rstrip()
     cust_name = cust_name.strip()
     rack_name = rack_name.rstrip()
@@ -147,12 +216,12 @@ def sendText(mana,cust,rack,atp,drop,key,just,criti,supp):
     newMail.HTMLBody = "The following represents the status report for "+rack_name+\
                    ", ATP#"+atp_no+"<br><br>"+\
                    "(1) Key Activities Completed on Day<br>"+orgText(key)+"<br>"+\
-                   "(2) ATP_Status (current stage of rack ATP)<br>"+drop.get()+"<br><br>"+\
+                   "(2) ATP_Status (current stage of rack ATP)<br>&nbsp;&nbsp;&nbsp;&nbsp;"+drop.get()+"<br><br>"+\
                    "(3) Justification for Software updates<br>"+orgText(just)+"<br>"+\
                    "(4) Critical issues Raised and potential Impact<br>"+orgText(criti)+"<br>"\
                    "(5) Support Requested<br>"+orgText(supp)
     newMail.To = toEmail(mana.get())
-    newMail.Cc = toEmail(mana.get())
+    newMail.Cc = cc_name
     newMail.Send()
     tkMessageBox.showinfo("sent","Status Report successfully submitted to "+mana.get()+"!")
 
@@ -163,7 +232,7 @@ def orgText(T):
     index = 1
     for a in T_split:
         if a:
-            result = result + str(index) + ". " + a + "<br>"
+            result = result + "&nbsp;&nbsp;&nbsp;&nbsp;" + str(index) + ". " + a + "<br>"
             index = index + 1
 ##    print(len(T_split)) 
 ##    print(T_split)
@@ -193,4 +262,3 @@ try:
     initialize1()
 except Exception as e:
     tkMessageBox.showinfo("Error", str(e))
-
